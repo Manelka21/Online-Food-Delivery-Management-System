@@ -1,5 +1,7 @@
 package com.fooddelivery.model;
 
+// MenuItem model - represents a food item in the delivery system
+
 public class MenuItem {
 
     private String id;
