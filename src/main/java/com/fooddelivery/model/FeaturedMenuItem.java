@@ -1,5 +1,7 @@
 package com.fooddelivery.model;
 
+// FeaturedMenuItem - extends MenuItem with discount functionality
+
 public class FeaturedMenuItem extends MenuItem {
 
     private double discountPercent;
