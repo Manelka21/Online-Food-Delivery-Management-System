@@ -1,5 +1,7 @@
 package com.fooddelivery.service;
 
+// MenuItemService - handles all file based CRUD operations
+
 import com.fooddelivery.model.MenuItem;
 
 import java.io.*;
