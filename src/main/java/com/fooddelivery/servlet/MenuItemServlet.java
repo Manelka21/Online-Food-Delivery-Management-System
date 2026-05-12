@@ -1,5 +1,7 @@
 package com.fooddelivery.servlet;
 
+// MenuItemServlet - routes HTTP requests to CRUD operations
+
 import com.fooddelivery.model.MenuItem;
 import com.fooddelivery.service.MenuItemService;
 
