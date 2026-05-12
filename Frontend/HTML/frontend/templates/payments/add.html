@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background: #f8f9fa; }
+        .form-card { border-radius: 16px; border: none; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+    </style>
+</head>
+<body>
+<div class="container py-5" style="max-width: 600px;">
+    <div class="d-flex align-items-center mb-4">
+        <a href="/payments" class="btn btn-sm btn-outline-secondary me-3">
+            <i class="bi bi-arrow-left"></i>
+        </a>
+        <h4 class="mb-0 fw-bold">Add New Payment</h4>
+    </div>
+
+    <div class="card form-card p-4">
+        <form action="/payments/add" method="post">
+
+            <!-- Payment Type -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Payment Type</label>
+                <select class="form-select" name="paymentType" id="paymentType" onchange="showFields()" required>
+                    <option value="">-- Select type --</option>
+                    <option value="CARD">Card Payment</option>
+                    <option value="CASH">Cash on Delivery</option>
+                    <option value="ONLINE">Online Wallet (PayHere/FriMi)</option>
+                </select>
+            </div>
+
+            <!-- Order ID -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Order ID</label>
+                <input type="text" class="form-control" name="orderId"
+                       placeholder="e.g. ORD-00123" required>
+            </div>
+
+            <!-- Amount -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Amount (LKR)</label>
+                <input type="number" class="form-control" name="amount"
+                       step="0.01" min="0" placeholder="e.g. 1500.00" required>
+            </div>
+
+            <!-- CARD FIELDS -->
+            <div id="cardFields" style="display:none;">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Last 4 Digits of Card</label>
+                    <input type="text" class="form-control" name="extraField1"
+                           maxlength="4" placeholder="e.g. 4242">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Card Holder Name</label>
+                    <input type="text" class="form-control" name="extraField2"
+                           placeholder="e.g. Kasun Perera">
+                </div>
+            </div>
+
+            <!-- CASH FIELDS -->
+            <div id="cashFields" style="display:none;">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Delivery Driver ID</label>
+                    <input type="text" class="form-control" name="extraField1"
+                           placeholder="e.g. DRV-001">
+                </div>
+            </div>
+
+            <!-- ONLINE FIELDS -->
+            <div id="onlineFields" style="display:none;">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Wallet Provider</label>
+                    <select class="form-select" name="extraField1">
+                        <option value="PayHere">PayHere</option>
+                        <option value="FriMi">FriMi</option>
+                        <option value="koko">koko</option>
+                        <option value="Genie">Genie</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-grid mt-4">
+                <button type="submit" class="btn btn-dark fw-semibold py-2">
+                    <i class="bi bi-plus-lg me-1"></i>Add Payment
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+function showFields() {
+    const type = document.getElementById('paymentType').value;
+    document.getElementById('cardFields').style.display   = type === 'CARD'   ? 'block' : 'none';
+    document.getElementById('cashFields').style.display   = type === 'CASH'   ? 'block' : 'none';
+    document.getElementById('onlineFields').style.display = type === 'ONLINE' ? 'block' : 'none';
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

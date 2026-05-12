@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment – FoodDelivery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #f0f4ff; font-family: 'Segoe UI', sans-serif; }
+
+        .top-bar {
+            background: #1a1a2e;
+            color: white;
+            padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 48px 24px 36px;
+            text-align: center;
+        }
+
+        .tab-switcher {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 6px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            max-width: 400px;
+            margin: 0 auto 32px;
+        }
+        .tab-switcher button {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.2s;
+        }
+        .tab-switcher button.active {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .method-btn {
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            background: white;
+            transition: all 0.15s;
+            font-size: 13px;
+            font-weight: 500;
+            color: #444;
+        }
+        .method-btn:hover { border-color: #1a1a2e; }
+        .method-btn.selected { border-color: #1a1a2e; background: #f0f4ff; color: #1a1a2e; }
+        .method-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+
+        .status-card {
+            background: white;
+            border-radius: 16px;
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .badge-COMPLETED { background: #d1f2eb; color: #0e6655; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+        .badge-PENDING   { background: #fef9e7; color: #9a7d0a; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+        .badge-FAILED    { background: #fadbd8; color: #922b21; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+        .badge-REFUNDED  { background: #d6eaf8; color: #1a5276; padding: 4px 12px; border-radius: 999px; font-size: 12px; font-weight: 500; }
+
+        .success-box {
+            background: #d1f2eb;
+            border-radius: 12px;
+            padding: 16px 20px;
+            color: #0e6655;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="top-bar">
+    <span><i class="bi bi-bag-heart-fill me-2"></i><strong>FoodDelivery</strong> — Payments</span>
+    <a href="/payments" class="btn btn-outline-light btn-sm">
+        <i class="bi bi-shield-lock me-1"></i>Admin
+    </a>
+</div>
+
+<!-- Hero -->
+<div class="page-hero">
+    <h3 class="fw-bold mb-1">Payment Portal</h3>
+    <p class="text-white-50 mb-4">Pay for your order or check your payment status</p>
+
+    <!-- Tab switcher -->
+    <div class="tab-switcher">
+        <button class="active" id="tabPayBtn" onclick="switchTab('pay')">
+            💳 Pay for Order
+        </button>
+        <button id="tabViewBtn" onclick="switchTab('view')">
+            🧾 View My Payments
+        </button>
+    </div>
+</div>
+
+<div class="container py-4">
+
+    <!-- ══════════ PAY TAB ══════════ -->
+    <div id="tabPay">
+        <div class="form-card">
+
+            <!-- Success message -->
+            <div th:if="${success}" class="success-box">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+                <span th:text="${success}"></span>
+            </div>
+
+            <h5 class="fw-bold mb-4">Enter Payment Details</h5>
+
+            <form action="/customer/pay" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Your Customer ID</label>
+                    <input type="text" class="form-control form-control-lg" name="customerId"
+                           placeholder="e.g. CUST-001" required>
+                    <div class="form-text">Ask your order confirmation for your Customer ID</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Order ID</label>
+                    <input type="text" class="form-control form-control-lg" name="orderId"
+                           placeholder="e.g. ORD-00101" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Amount to Pay (LKR)</label>
+                    <input type="number" class="form-control form-control-lg" name="amount"
+                           step="0.01" min="0" placeholder="0.00" required>
+                </div>
+
+                <!-- Payment method selector -->
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Payment Method</label>
+                    <div class="method-grid">
+                        <div class="method-btn" onclick="selectMethod('CARD', this)">
+                            <span class="method-icon">💳</span>Card
+                        </div>
+                        <div class="method-btn" onclick="selectMethod('CASH', this)">
+                            <span class="method-icon">💵</span>Cash
+                        </div>
+                        <div class="method-btn" onclick="selectMethod('ONLINE', this)">
+                            <span class="method-icon">📱</span>Online
+                        </div>
+                    </div>
+                    <input type="hidden" name="paymentType" id="paymentTypeInput" required>
+                </div>
+
+                <!-- CARD fields -->
+                <div id="cardFields" style="display:none;" class="mb-3">
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label">Last 4 Digits</label>
+                            <input type="text" class="form-control" name="extraField1" maxlength="4" placeholder="4242">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">Card Holder Name</label>
+                            <input type="text" class="form-control" name="extraField2" placeholder="Your Name">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CASH fields -->
+                <div id="cashFields" style="display:none;" class="mb-3">
+                    <label class="form-label">Delivery Driver ID</label>
+                    <input type="text" class="form-control" name="extraField1" placeholder="e.g. DRV-001">
+                </div>
+
+                <!-- ONLINE fields -->
+                <div id="onlineFields" style="display:none;" class="mb-3">
+                    <label class="form-label">Wallet Provider</label>
+                    <select class="form-select" name="extraField1">
+                        <option value="PayHere">PayHere</option>
+                        <option value="FriMi">FriMi</option>
+                        <option value="koko">koko</option>
+                        <option value="Genie">Genie</option>
+                    </select>
+                </div>
+
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-dark btn-lg fw-semibold py-3">
+                        <i class="bi bi-lock-fill me-2"></i>Confirm Payment
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ══════════ VIEW MY PAYMENTS TAB ══════════ -->
+    <div id="tabView" style="display:none;">
+        <div class="form-card">
+            <h5 class="fw-bold mb-4">Check Your Payment Status</h5>
+            <form action="/customer/my-payments" method="post">
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Your Customer ID</label>
+                    <input type="text" class="form-control form-control-lg" name="customerId"
+                           placeholder="e.g. CUST-001" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-dark btn-lg fw-semibold">
+                        <i class="bi bi-search me-2"></i>View My Payments
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+function switchTab(tab) {
+    document.getElementById('tabPay').style.display  = tab === 'pay'  ? 'block' : 'none';
+    document.getElementById('tabView').style.display = tab === 'view' ? 'block' : 'none';
+    document.getElementById('tabPayBtn').classList.toggle('active',  tab === 'pay');
+    document.getElementById('tabViewBtn').classList.toggle('active', tab === 'view');
+}
+
+function selectMethod(type, el) {
+    document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('paymentTypeInput').value = type;
+    document.getElementById('cardFields').style.display   = type === 'CARD'   ? 'block' : 'none';
+    document.getElementById('cashFields').style.display   = type === 'CASH'   ? 'block' : 'none';
+    document.getElementById('onlineFields').style.display = type === 'ONLINE' ? 'block' : 'none';
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
