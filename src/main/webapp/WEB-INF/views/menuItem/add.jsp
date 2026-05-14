@@ -1,3 +1,5 @@
+<%-- Add page - form to create a new menu item --%>
+
 <%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
