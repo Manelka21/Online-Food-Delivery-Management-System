@@ -1,0 +1,17 @@
+# File Formats - TXT Storage
+
+## users.txt
+Fields (Pipe-delimited):
+1. personId (e.g., USR-001, DRV-001)
+2. dtype (Customer or Driver)
+3. name
+4. email
+5. password
+6. phone
+7. address (Customer only)
+8. vehicleNumber (Driver only)
+9. licenseNumber (Driver only)
+10. isAvailable (Driver only, true/false)
+
+Example:
+USR-001|Customer|Amal Perera|amal@gmail.com|1234|+94711111111|No.10, Galle Rd, Colombo|||true

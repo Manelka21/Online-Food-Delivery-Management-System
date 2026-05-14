@@ -1,0 +1,20 @@
+﻿users.txt Format
+================
+
+Each line is one pipe-delimited user record with 10 fields:
+personId | dtype | name | email | password | phone | address | vehicleNumber | licenseNumber | isAvailable
+
+Customer rows:
+- dtype must be Customer
+- address is filled
+- vehicleNumber and licenseNumber are blank
+- isAvailable is true for compatibility with the shared Person/User file structure
+
+Driver rows:
+- dtype must be Driver
+- address is blank
+- vehicleNumber and licenseNumber are filled
+- isAvailable is true or false
+
+Sample customer row:
+USR-001|Customer|Amal Perera|amal@gmail.com|1234|+94711111111|No.10, Galle Rd, Colombo|||true

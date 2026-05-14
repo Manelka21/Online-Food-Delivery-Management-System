@@ -1,0 +1,11 @@
+# API Endpoints Checklist - Customer Management
+
+| Method | Endpoint | Status | Description |
+|--------|----------|--------|-------------|
+| POST | /auth/login | ✅ | Login for customers and admins |
+| POST | /auth/signup | ✅ | Customer registration |
+| GET | /customers | ✅ | Fetch all customer records |
+| GET | /customers/{id} | ✅ | Fetch a single customer record |
+| POST | /customers | ✅ | Create a new customer (Admin) |
+| PUT | /customers/{id} | ✅ | Update customer details |
+| DELETE | /customers/{id} | ✅ | Delete a customer record |
