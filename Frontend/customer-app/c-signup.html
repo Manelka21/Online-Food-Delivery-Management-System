@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Sign Up - FoodDash</title>
+  <link rel="stylesheet" href="c-shared.css">
+</head>
+<body class="auth-page">
+  <main class="auth-card" aria-labelledby="signup-title">
+    <div class="auth-mark">FD</div>
+    <h1 class="auth-title" id="signup-title">Create Account</h1>
+    <p class="auth-subtitle">Register as a FoodDash customer.</p>
+
+    <form id="signup-form" novalidate>
+      <div class="form-group">
+        <label class="form-label" for="name">Full name</label>
+        <input type="text" id="name" class="form-input" autocomplete="name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <input type="email" id="email" class="form-input" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="phone">Phone number</label>
+        <input type="tel" id="phone" class="form-input" autocomplete="tel" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="address">Delivery address</label>
+        <textarea id="address" class="form-textarea" autocomplete="street-address" required></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <input type="password" id="password" class="form-input" autocomplete="new-password" required>
+      </div>
+      <p id="error-msg" class="error-msg" role="alert"></p>
+      <button class="btn-primary full-width" type="submit">Create Account</button>
+    </form>
+
+    <p class="auth-link">Already registered? <a href="c-login.html">Sign in</a></p>
+  </main>
+
+  <script src="c-shell.js"></script>
+  <script>
+    document.getElementById('signup-form').addEventListener('submit', async function (event) {
+      event.preventDefault();
+      const body = {
+        name: document.getElementById('name').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        password: document.getElementById('password').value.trim()
+      };
+      const errorEl = document.getElementById('error-msg');
+      errorEl.textContent = '';
+
+      if (!body.name || !body.email || !body.phone || !body.address || !body.password) {
+        errorEl.textContent = 'Please complete every field.';
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost:8080/auth/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(payload.error || 'Sign up failed.');
+        localStorage.setItem('customer', JSON.stringify({ ...payload, email: body.email }));
+        window.location.href = 'c-profile.html';
+      } catch (error) {
+        errorEl.textContent = error.message === 'Failed to fetch'
+          ? 'Cannot connect to the backend on port 8080.'
+          : error.message;
+      }
+    });
+  </script>
+</body>
+</html>
