@@ -1,0 +1,20 @@
+﻿Customer Management Frontend Checklist
+======================================
+
+Customer app files:
+[ ] customer-app/c-login.html loads and calls POST /auth/login
+[ ] customer-app/c-signup.html loads and calls POST /auth/signup
+[ ] customer-app/c-profile.html loads customer data from GET /customers/{id}
+[ ] customer-app/c-profile.html updates name, phone, and address with PUT /customers/{id}
+[ ] customer-app/c-shell.js protects private customer pages
+[ ] customer-app/c-shared.css is linked by all customer pages
+
+Admin app files:
+[ ] admin-app/login.html stores admin session in sessionStorage
+[ ] admin-app/dashboard.html displays customer module summary
+[ ] admin-app/customers.html supports GET, POST, PUT, DELETE for /customers
+[ ] admin-app/shell.js protects private admin pages and injects navigation
+[ ] admin-app/shared.css is linked by all admin pages
+
+Data file:
+[ ] data/users.txt has at least 3 Customer rows and 2 Driver rows
