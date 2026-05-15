@@ -15,7 +15,7 @@ import java.util.List;
 @WebServlet("/menuItems")
 public class MenuItemServlet extends HttpServlet {
 
-    private final MenuItemService service = MenuItemService.getInstance();
+    private final MenuItemService service = new MenuItemService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)

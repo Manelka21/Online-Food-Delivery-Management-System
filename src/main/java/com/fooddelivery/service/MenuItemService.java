@@ -13,14 +13,9 @@ public class MenuItemService {
 
     private static final String DATA_FILE = "data/menuItems.txt";
 
-    private static MenuItemService instance;
 
-    private MenuItemService() { ensureFileExists(); }
+    public MenuItemService() { ensureFileExists(); }
 
-    public static synchronized MenuItemService getInstance() {
-        if (instance == null) instance = new MenuItemService();
-        return instance;
-    }
 
     private void ensureFileExists() {
         try {
