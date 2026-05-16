@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment – FoodDelivery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #f8f8f8; font-family: 'Segoe UI', sans-serif; }
+
+        /* NAVBAR */
+        .navbar-custom {
+            background: white;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .navbar-brand-custom {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1a1a1a;
+        }
+        .navbar-brand-custom span { color: #06C167; }
+        .btn-admin {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        .btn-admin:hover { background: #333; color: white; }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+        .hero h1 span { color: #06C167; }
+        .hero p { font-size: 16px; color: #666; margin-bottom: 0; }
+
+        /* OPTION CARDS */
+        .option-cards {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            padding: 40px 20px;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .option-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            width: 260px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+        }
+        .option-card:hover { border-color: #06C167; transform: translateY(-4px); }
+        .option-card .icon-wrap {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 36px;
+        }
+        .option-card h4 { font-size: 18px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
+        .option-card p { font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 24px; }
+        .btn-black {
+            background: #1a1a1a; color: white;
+            border: none; border-radius: 999px;
+            padding: 12px 28px; font-weight: 700;
+            font-size: 14px; width: 100%;
+            text-decoration: none; display: block;
+            transition: background 0.2s;
+        }
+        .btn-black:hover { background: #333; color: white; }
+        .live-badge {
+            position: absolute; top: 16px; right: 16px;
+            background: #06C167; color: white;
+            font-size: 10px; font-weight: 700;
+            padding: 3px 8px; border-radius: 4px;
+        }
+
+        /* PAY FORM */
+        .form-section {
+            max-width: 540px;
+            margin: 0 auto;
+            padding: 0 20px 60px;
+            display: none;
+        }
+        .form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 36px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .form-card h5 { font-size: 20px; font-weight: 700; margin-bottom: 24px; }
+        .form-label { font-weight: 600; font-size: 13px; color: #444; }
+        .form-control, .form-select {
+            border-radius: 12px; border: 2px solid #eee;
+            padding: 12px 16px; font-size: 14px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #06C167; box-shadow: none;
+        }
+
+        /* METHOD SELECTOR */
+        .method-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px; }
+        .method-btn {
+            border: 2px solid #eee; border-radius: 14px;
+            padding: 14px 8px; text-align: center;
+            cursor: pointer; background: white;
+            transition: all 0.15s; font-size: 13px; font-weight: 600; color: #444;
+        }
+        .method-btn:hover { border-color: #06C167; }
+        .method-btn.selected { border-color: #06C167; background: #f0fdf6; color: #06C167; }
+        .method-icon { font-size: 26px; display: block; margin-bottom: 5px; }
+
+        .btn-green {
+            background: #06C167; color: white; border: none;
+            border-radius: 999px; padding: 14px 28px;
+            font-weight: 700; font-size: 15px; width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-green:hover { background: #05a856; }
+
+        .success-box {
+            background: #f0fdf6; border: 1px solid #06C167;
+            border-radius: 12px; padding: 14px 18px;
+            color: #05a856; font-weight: 500;
+            margin-bottom: 20px; display: flex; gap: 10px; align-items: center;
+        }
+
+        .back-btn {
+            background: none; border: 2px solid #eee;
+            border-radius: 999px; padding: 8px 20px;
+            font-weight: 600; font-size: 13px; color: #666;
+            margin-bottom: 20px; cursor: pointer;
+        }
+        .back-btn:hover { border-color: #ccc; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-custom">
+    <div class="navbar-brand-custom">Food<span>Delivery</span></div>
+    <a href="/payments" class="btn-admin">
+        <i class="bi bi-shield-lock me-1"></i>Admin Panel
+    </a>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="heroSection">
+    <h1>Welcome to <span>FoodDelivery</span></h1>
+    <p>How would you like to use our platform today?</p>
+</div>
+
+<!-- OPTION CARDS -->
+<div class="option-cards" id="optionCards">
+
+    <!-- PAY FOR ORDER -->
+    <div class="option-card" onclick="showForm('pay')">
+        <span class="live-badge">LIVE</span>
+        <div class="icon-wrap" style="background:#f0fdf6;">💳</div>
+        <h4>Pay for Order</h4>
+        <p>Pay for your food order using Card, Cash on Delivery, or Online Wallet.</p>
+        <span class="btn-black">Pay Now</span>
+    </div>
+
+    <!-- VIEW MY PAYMENTS -->
+    <div class="option-card" onclick="showForm('view')">
+        <div class="icon-wrap" style="background:#f0f4ff;">🧾</div>
+        <h4>My Payments</h4>
+        <p>Check the status of your payments and view your payment history.</p>
+        <span class="btn-black">View Status</span>
+    </div>
+
+</div>
+
+<!-- PAY FORM -->
+<div class="form-section" id="payForm">
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="form-card">
+
+        <div th:if="${success}" class="success-box">
+            <i class="bi bi-check-circle-fill fs-5"></i>
+            <span th:text="${success}"></span>
+        </div>
+
+        <h5>💳 Make a Payment</h5>
+        <form action="/customer/pay" method="post">
+            <div class="mb-3">
+                <label class="form-label">Customer ID</label>
+                <input type="text" class="form-control" name="customerId" placeholder="e.g. CUST-001" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Order ID</label>
+                <input type="text" class="form-control" name="orderId" placeholder="e.g. ORD-00101" required>
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Amount (LKR)</label>
+                <input type="number" class="form-control" name="amount" step="0.01" min="0" placeholder="0.00" required>
+            </div>
+
+            <label class="form-label">Payment Method</label>
+            <div class="method-grid">
+                <div class="method-btn" onclick="selectMethod('CARD', this)">
+                    <span class="method-icon">💳</span>Card
+                </div>
+                <div class="method-btn" onclick="selectMethod('CASH', this)">
+                    <span class="method-icon">💵</span>Cash
+                </div>
+                <div class="method-btn" onclick="selectMethod('ONLINE', this)">
+                    <span class="method-icon">📱</span>Online
+                </div>
+            </div>
+            <input type="hidden" name="paymentType" id="paymentTypeInput" required>
+
+            <!-- CARD -->
+            <div id="cardFields" style="display:none;" class="mb-3">
+                <div class="row g-2">
+                    <div class="col-6">
+                        <label class="form-label">Last 4 Digits</label>
+                        <input type="text" class="form-control" name="extraField1" maxlength="4" placeholder="4242">
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label">Card Holder Name</label>
+                        <input type="text" class="form-control" name="extraField2" placeholder="Your Name">
+                    </div>
+                </div>
+            </div>
+
+            <!-- CASH -->
+            <div id="cashFields" style="display:none;" class="mb-3">
+                <label class="form-label">Delivery Driver ID</label>
+                <input type="text" class="form-control" name="extraField1" placeholder="e.g. DRV-001">
+            </div>
+
+            <!-- ONLINE -->
+            <div id="onlineFields" style="display:none;" class="mb-3">
+                <label class="form-label">Wallet Provider</label>
+                <select class="form-select" name="extraField1">
+                    <option value="PayHere">PayHere</option>
+                    <option value="FriMi">FriMi</option>
+                    <option value="koko">koko</option>
+                    <option value="Genie">Genie</option>
+                </select>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn-green">Confirm Payment →</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- VIEW MY PAYMENTS FORM -->
+<div class="form-section" id="viewForm">
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <div class="form-card">
+        <h5>🧾 Check Payment Status</h5>
+        <form action="/customer/my-payments" method="post">
+            <div class="mb-4">
+                <label class="form-label">Your Customer ID</label>
+                <input type="text" class="form-control" name="customerId" placeholder="e.g. CUST-001" required>
+            </div>
+            <button type="submit" class="btn-green">View My Payments →</button>
+        </form>
+    </div>
+</div>
+
+<script>
+function showForm(type) {
+    document.getElementById('heroSection').style.display = 'none';
+    document.getElementById('optionCards').style.display = 'none';
+    document.getElementById('payForm').style.display  = type === 'pay'  ? 'block' : 'none';
+    document.getElementById('viewForm').style.display = type === 'view' ? 'block' : 'none';
+}
+function goBack() {
+    document.getElementById('heroSection').style.display = 'block';
+    document.getElementById('optionCards').style.display = 'flex';
+    document.getElementById('payForm').style.display  = 'none';
+    document.getElementById('viewForm').style.display = 'none';
+}
+function selectMethod(type, el) {
+    document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('paymentTypeInput').value = type;
+    document.getElementById('cardFields').style.display   = type === 'CARD'   ? 'block' : 'none';
+    document.getElementById('cashFields').style.display   = type === 'CASH'   ? 'block' : 'none';
+    document.getElementById('onlineFields').style.display = type === 'ONLINE' ? 'block' : 'none';
+}
+
+// Auto show pay form if success message
+window.onload = function() {
+    const success = document.querySelector('.success-box');
+    if (success) showForm('pay');
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
