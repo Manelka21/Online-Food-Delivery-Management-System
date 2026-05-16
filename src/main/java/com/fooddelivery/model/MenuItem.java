@@ -47,6 +47,8 @@ public class MenuItem {
     public String getImageUrl()                    { return imageUrl; }
     public void   setImageUrl(String imageUrl)     { this.imageUrl = imageUrl; }
 
+    // Converts MenuItem object to pipe delimited string for file storage
+
     public String toFileString() {
         return String.join("|",
                 id, name, category, description,
