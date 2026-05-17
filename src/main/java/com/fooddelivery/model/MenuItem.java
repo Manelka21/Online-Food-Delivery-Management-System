@@ -89,7 +89,7 @@ public class MenuItem {
     }
 
     // This method converts a MenuItem object into a text line
-    // Fields are separated by | symbol
+    // Converts MenuItem object to pipe delimited string for file storage
     // Example output: MI001|Chicken Burger|Main Course|Juicy burger|850.0|true|
     public String toFileString() {
         return id + "|" + name + "|" + category + "|" + description + "|" + price + "|" + available + "|" + imageUrl;
