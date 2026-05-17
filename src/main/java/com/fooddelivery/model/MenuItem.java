@@ -2,8 +2,11 @@ package com.fooddelivery.model;
 
 // MenuItem model - represents a food item in the delivery system
 
+// This class represents a single food item in the menu
+// OOP Concept: Encapsulation - all fields are private
 public class MenuItem {
 
+    // Private fields - cannot be accessed from outside this class
     private String id;
     private String name;
     private String category;
@@ -12,64 +15,104 @@ public class MenuItem {
     private boolean available;
     private String imageUrl;
 
-    public MenuItem() {}
+    // Default constructor - creates an empty MenuItem object
+    public MenuItem() {
+    }
 
-    public MenuItem(String id, String name, String category,
-                    String description, double price,
-                    boolean available, String imageUrl) {
-        this.id          = id;
-        this.name        = name;
-        this.category    = category;
+    // Parameterized constructor - creates a MenuItem with all details
+    public MenuItem(String id, String name, String category, String description, double price, boolean available, String imageUrl) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
         this.description = description;
-        this.price       = price;
-        this.available   = available;
-        this.imageUrl    = imageUrl;
+        this.price = price;
+        this.available = available;
+        this.imageUrl = imageUrl;
     }
 
-    public String getId()                      { return id; }
-    public void   setId(String id)             { this.id = id; }
+    // Getters - used to read private fields from outside the class
+    public String getId() {
+        return id;
+    }
 
-    public String getName()                    { return name; }
-    public void   setName(String name)         { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getCategory()                { return category; }
-    public void   setCategory(String category) { this.category = category; }
+    public String getCategory() {
+        return category;
+    }
 
-    public String getDescription()                   { return description; }
-    public void   setDescription(String description) { this.description = description; }
+    public String getDescription() {
+        return description;
+    }
 
-    public double getPrice()                   { return price; }
-    public void   setPrice(double price)       { this.price = price; }
+    public double getPrice() {
+        return price;
+    }
 
-    public boolean isAvailable()                   { return available; }
-    public void    setAvailable(boolean available) { this.available = available; }
+    public boolean isAvailable() {
+        return available;
+    }
 
-    public String getImageUrl()                    { return imageUrl; }
-    public void   setImageUrl(String imageUrl)     { this.imageUrl = imageUrl; }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-    // Converts MenuItem object to pipe delimited string for file storage
+    // Setters - used to change private fields from outside the class
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    // This method converts a MenuItem object into a text line
+    // Fields are separated by | symbol
+    // Example output: MI001|Chicken Burger|Main Course|Juicy burger|850.0|true|
     public String toFileString() {
-        return String.join("|",
-                id, name, category, description,
-                String.valueOf(price),
-                String.valueOf(available),
-                imageUrl == null ? "" : imageUrl);
+        return id + "|" + name + "|" + category + "|" + description + "|" + price + "|" + available + "|" + imageUrl;
     }
 
+    // This method reads a text line and creates a MenuItem object
+    // It splits the line by | symbol to get each field
     public static MenuItem fromFileString(String line) {
         String[] parts = line.split("\\|", -1);
-        if (parts.length < 7) return null;
-        return new MenuItem(
-                parts[0], parts[1], parts[2], parts[3],
-                Double.parseDouble(parts[4]),
-                Boolean.parseBoolean(parts[5]),
-                parts[6]);
-    }
 
-    @Override
-    public String toString() {
-        return "MenuItem{id='" + id + "', name='" + name +
-                "', category='" + category + "', price=" + price + "}";
+        // Check if the line has all 7 fields
+        if (parts.length < 7) {
+            return null;
+        }
+
+        String id          = parts[0];
+        String name        = parts[1];
+        String category    = parts[2];
+        String description = parts[3];
+        double price       = Double.parseDouble(parts[4]);
+        boolean available  = Boolean.parseBoolean(parts[5]);
+        String imageUrl    = parts[6];
+
+        return new MenuItem(id, name, category, description, price, available, imageUrl);
     }
 }
