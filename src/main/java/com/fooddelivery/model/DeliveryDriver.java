@@ -1,9 +1,5 @@
 package com.fooddelivery.model;
 
-/**
- * DeliveryDriver model class.
- * Demonstrates encapsulation through private fields and public getters/setters.
- */
 public class DeliveryDriver {
 
     // Encapsulated fields
@@ -18,8 +14,7 @@ public class DeliveryDriver {
     private String status;        // ACTIVE, INACTIVE, ON_DELIVERY
     private String registeredDate;
 
-    // --- Constructors ---
-
+    //Constructors
     public DeliveryDriver() {}
 
     public DeliveryDriver(String driverId, String firstName, String lastName,
@@ -38,7 +33,7 @@ public class DeliveryDriver {
         this.registeredDate = registeredDate;
     }
 
-    // --- Getters & Setters (Encapsulation) ---
+    //Getters & Setters (Encapsulation)
 
     public String getDriverId() { return driverId; }
     public void setDriverId(String driverId) { this.driverId = driverId; }
@@ -70,24 +65,20 @@ public class DeliveryDriver {
     public String getRegisteredDate() { return registeredDate; }
     public void setRegisteredDate(String registeredDate) { this.registeredDate = registeredDate; }
 
-    // --- Utility ---
+    //Utility
 
     public String getFullName() {
         return firstName + " " + lastName;
     }
 
-    /**
-     * Serialize driver to a pipe-delimited string for file storage.
-     */
+    //Serialize driver to a pipe-delimited string for file storage//
     public String toFileString() {
         return driverId + "|" + firstName + "|" + lastName + "|" + email + "|" +
                password + "|" + phone + "|" + vehicleType + "|" +
                licenseNumber + "|" + status + "|" + registeredDate;
     }
 
-    /**
-     * Deserialize driver from a pipe-delimited file line.
-     */
+    //Deserialize driver from a pipe-delimited file line//
     public static DeliveryDriver fromFileString(String line) {
         String[] parts = line.split("\\|", -1);
         if (parts.length < 10) return null;

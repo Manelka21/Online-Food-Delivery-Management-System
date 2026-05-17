@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="jakarta.tags.core" prefix="c" %>
-<aside class="w-64 bg-yellow-400 border-r border-gray-200 flex flex-col h-screen p-6">
+<aside class="w-64 bg-green-500 border-r border-gray-200 flex flex-col h-screen p-6">
   <a href="${pageContext.request.contextPath}/driver/dashboard" class="flex items-center gap-4 mb-8 text-black group">
     <div class="w-15 h-15 mx-auto bg-white rounded-full flex items-center justify-center text-[40px] group-hover:bg-blue-50 transition">🚴</div>
     <div>
