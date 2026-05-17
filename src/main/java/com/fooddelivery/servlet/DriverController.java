@@ -13,8 +13,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Spring MVC Controller for the Delivery Driver subsystem.
- * Handles: Register, Login, View Profile, Edit Profile, Delete Account.
+ Spring MVC Controller for the Delivery Driver subsystem.
+ Handles: Register, Login, View Profile, Edit Profile, Delete Account.
  */
 @Controller
 @RequestMapping("/driver")
@@ -30,7 +30,7 @@ public class DriverController {
     @Autowired
     private FileHandler fileHandler;
 
-    // ============================================================= HOME
+    //HOME
     @GetMapping({"", "/"})
     public String home(HttpSession session, Model model) {
         DeliveryDriver loggedIn = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -41,7 +41,7 @@ public class DriverController {
         return "redirect:/driver/login";
     }
 
-    // ============================================================= REGISTER
+    //REGISTER
     @GetMapping("/register")
     public String registerForm(HttpSession session) {
         if (session.getAttribute("loggedInDriver") != null) return "redirect:/driver/dashboard";
@@ -83,7 +83,7 @@ public class DriverController {
         return "redirect:/driver/login";
     }
 
-    // ============================================================== LOGIN
+    //LOGIN
     @GetMapping("/login")
     public String loginForm(HttpSession session) {
         if (session.getAttribute("loggedInDriver") != null) return "redirect:/driver/dashboard";
@@ -107,7 +107,7 @@ public class DriverController {
         return "redirect:/driver/dashboard";
     }
 
-    // ============================================================= LOGOUT
+    //LOGOUT
     @GetMapping("/logout")
     public String logout(HttpSession session, RedirectAttributes ra) {
         session.invalidate();
@@ -115,7 +115,7 @@ public class DriverController {
         return "redirect:/driver/login";
     }
 
-    // ============================================================ DASHBOARD
+    //DASHBOARD
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -131,7 +131,7 @@ public class DriverController {
         return "driver/dashboard";
     }
 
-    // ============================================================ VIEW PROFILE (READ)
+    //VIEW PROFILE (READ)
     @GetMapping("/profile")
     public String viewProfile(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -142,7 +142,7 @@ public class DriverController {
         return "driver/profile";
     }
 
-    // ============================================================ EDIT PROFILE (UPDATE)
+    //EDIT PROFILE (UPDATE)
     @GetMapping("/edit")
     public String editForm(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -185,7 +185,7 @@ public class DriverController {
         return "redirect:/driver/profile";
     }
 
-    // ============================================================ DELETE ACCOUNT
+    //DELETE ACCOUNT
     @GetMapping("/delete")
     public String deleteConfirm(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -218,7 +218,7 @@ public class DriverController {
         }
     }
 
-    // ============================================================ ADMIN: ALL DRIVERS
+    //ADMIN: ALL DRIVERS
     @GetMapping("/all")
     public String listAll(Model model) {
         List<DeliveryDriver> drivers = fileHandler.readAll();
