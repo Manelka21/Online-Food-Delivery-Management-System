@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles all file read/write operations for DeliveryDriver data.
- * Uses pipe-delimited text file (drivers.txt) for persistence.
+ Handles all file read/write operations for DeliveryDriver data.
+ Uses pipe-delimited text file (drivers.txt) for persistence.
  */
 @Component
 public class FileHandler {
@@ -37,8 +37,8 @@ public class FileHandler {
         }
     }
 
-    // ------------------------------------------------------------------ READ
-    /** Read all drivers from file. */
+    //READ
+    //Read all drivers from file.
     public List<DeliveryDriver> readAll() {
         List<DeliveryDriver> drivers = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH))) {
@@ -56,7 +56,7 @@ public class FileHandler {
         return drivers;
     }
 
-    /** Find a driver by ID. Returns null if not found. */
+    // Find a driver by ID. Returns null if not found.
     public DeliveryDriver findById(String id) {
         return readAll().stream()
                 .filter(d -> d.getDriverId().equals(id))
@@ -64,7 +64,7 @@ public class FileHandler {
                 .orElse(null);
     }
 
-    /** Find a driver by email. Returns null if not found. */
+    //Find a driver by email. Returns null if not found.
     public DeliveryDriver findByEmail(String email) {
         return readAll().stream()
                 .filter(d -> d.getEmail().equalsIgnoreCase(email))
@@ -72,8 +72,8 @@ public class FileHandler {
                 .orElse(null);
     }
 
-    // ----------------------------------------------------------------- WRITE
-    /** Overwrite the entire file with the given list. */
+    //WRITE
+    //Overwrite the entire file with the given list.
     private void writeAll(List<DeliveryDriver> drivers) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, false))) {
             for (DeliveryDriver d : drivers) {
@@ -85,8 +85,8 @@ public class FileHandler {
         }
     }
 
-    // --------------------------------------------------------------- CREATE
-    /** Append a new driver. Returns false if email already exists. */
+    //CREATE
+    //Append a new driver. Returns false if email already exists.
     public boolean create(DeliveryDriver driver) {
         if (findByEmail(driver.getEmail()) != null) return false; // duplicate email
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
@@ -99,8 +99,8 @@ public class FileHandler {
         }
     }
 
-    // --------------------------------------------------------------- UPDATE
-    /** Update an existing driver by ID. Returns false if not found. */
+    //UPDATE
+    //Update an existing driver by ID. Returns false if not found.
     public boolean update(DeliveryDriver updated) {
         List<DeliveryDriver> drivers = readAll();
         boolean found = false;
@@ -119,8 +119,8 @@ public class FileHandler {
         return found;
     }
 
-    // --------------------------------------------------------------- DELETE
-    /** Delete a driver by ID. Returns false if not found. */
+    //DELETE
+    //Delete a driver by ID. Returns false if not found.
     public boolean delete(String id) {
         List<DeliveryDriver> drivers = readAll();
         boolean removed = drivers.removeIf(d -> d.getDriverId().equals(id));
@@ -128,8 +128,8 @@ public class FileHandler {
         return removed;
     }
 
-    // ----------------------------------------------------------- ID GENERATOR
-    /** Generate a new unique driver ID (DD001, DD002, …). */
+    //ID GENERATOR
+    //Generate a new unique driver ID (DD001, DD002, …).
     public String generateId() {
         List<DeliveryDriver> drivers = readAll();
         int max = 0;
