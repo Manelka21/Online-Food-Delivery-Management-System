@@ -17,7 +17,24 @@ public class PaymentService {
 
     // CREATE
     public Payment createPayment(String type, String orderId, String customerId,
-                                  double amount, String f1, String f2) {
+                                                double amount, String f1, String f2) {
+
+        List<Payment> existing = fileHandler.loadAllPayments();
+        for (Payment p : existing) {
+            if (p.getOrderId().equals(orderId)) {
+                if (p.getStatus().equals("COMPLETED")) {
+                    throw new IllegalArgumentException(
+                            "Order " + orderId + " is already paid!");
+                } else if (p.getStatus().equals("PENDING")) {
+                    throw new IllegalArgumentException(
+                            "Order " + orderId + " already has a pending payment!");
+                }
+            }
+        }
+
+
+
+
         String id = "PAY-" + UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         String at = LocalDateTime.now().format(FMT);
         Payment p;
