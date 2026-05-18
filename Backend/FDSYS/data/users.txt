@@ -1,20 +1,12 @@
+DRV-001|Driver|Saman Kumara|saman@driver.lk|1234|+94744444444||CAR-1234|LIC-5678|true
+DRV-002|Driver|Ruwan Jayasena|ruwan@driver.lk|1234|+94755555555||BIKE-4321|LIC-9999|false
 USR-001|Customer|Amal Perera|amal@gmail.com|1234|+94711111111|No.10, Galle Rd, Colombo|||true
 USR-002|Customer|Nimasha Silva|nimasha@gmail.com|1234|+94722222222|No.25, Kandy Rd, Kandy|||true
 USR-003|Customer|Kasun Fernando|kasun@gmail.com|1234|+94733333333|No.5, Negombo Rd, Negombo|||true
-USR-004|Customer|Priya Jayakody|priya@gmail.com|1234|+94712345678|No.42, Mount Lavinia Rd, Colombo|||true
-USR-005|Customer|Ravi Mendis|ravi@gmail.com|1234|+94719876543|No.8, Galle Face Rd, Colombo|||true
-USR-006|Customer|Sachini De Silva|sachini@gmail.com|1234|+94723456789|No.100, Matara Rd, Galle|||true
-USR-007|Customer|Dinesh Wijesinghe|dinesh@gmail.com|1234|+94734567890|No.15, High Rd, Matara|||true
-USR-008|Customer|Anura Wettasinghe|anura@gmail.com|1234|+94756789012|No.77, Station Rd, Jaffna|||true
-USR-009|Customer|Lakshmi Sharma|lakshmi@gmail.com|1234|+94767890123|No.50, Main St, Nuwara Eliya|||true
-USR-010|Customer|Manelka Pathiranage|pasindumanelka@gmail.com|12345678|0712345678|11/A, Malabe, Colombo|||true
-DRV-001|Driver|Saman Kumara|saman@driver.lk|1234|+94744444444||CAR-1234|LIC-5678|true
-DRV-002|Driver|Ruwan Jayasena|ruwan@driver.lk|1234|+94755555555||BIKE-4321|LIC-9999|false
-DRV-003|Driver|Chaminda Perera|chaminda@driver.lk|1234|+94766666666||VAN-7890|LIC-1111|true
-DRV-004|Driver|Nimal Silva|nimal@driver.lk|1234|+94777777777||BIKE-9999|LIC-2222|true
-DRV-005|Driver|Suresh Wijewardena|suresh@driver.lk|1234|+94788888888||CAR-5555|LIC-3333|true
+USR-011|Customer|Manelka Pathiranage|pasindumanelka@gmail.com|12345678|0712345678|11/A,Malabe,Colombo.|||true
+ADM-006|Admin|Admin2|admin2@gmail.com|Admin2|+94700000000||||true
+ADM-007|Admin|AdminSample|adminS@gmail.com|SampleAdmin|+9475757575||||true
+ADM-010|Admin|hiruna|hiruna1223@.com|900402|0112255123||||true
 ADM-001|Admin|System Admin|admin@fooddash.com|admin123|+94777777777||||true
-ADM-002|Admin|Admin2|admin2@gmail.com|Admin2|+94700000000||||true
-ADM-003|Admin|AdminSample|adminS@gmail.com|SampleAdmin|+9475757575||||true
-ADM-004|Admin|hiruna|hiruna1223@gmail.com|900402|0112255123||||true
-ADM-005|Admin|Sample Admin2|sampleadmin2@gmail.com|12345678|0788899961||||true
+ADM-012|Admin|Sample Admin2|sampleadmin2@gmail.com|12345678|0788899961||||true
+ADM-013|Admin|Admin|admin1234@gmail.com|12345678|07776664444||||true
