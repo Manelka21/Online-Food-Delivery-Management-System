@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  Spring MVC Controller for the Delivery Driver subsystem.
- Handles: Register, Login, View Profile, Edit Profile, Delete Account, Accept Order, Complete Order.
+ Handles: Register, Login, View Profile, Edit Profile, Delete Account, Accept Order, Complete Order, Update Status.
  */
 @Controller
 @RequestMapping("/driver")
@@ -65,6 +65,7 @@ public class DriverController {
         String id = fileHandler.generateId();
         String date = LocalDate.now().toString();
 
+        // New drivers default to "ACTIVE" on registration
         DeliveryDriver driver = new DeliveryDriver(
                 id, firstName, lastName, email, password,
                 phone, vehicleType, licenseNumber, "ACTIVE", date
@@ -118,6 +119,7 @@ public class DriverController {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
         if (driver == null) return "redirect:/driver/login";
 
+        // Refresh from text file database to load accurate realtime properties
         DeliveryDriver fresh = fileHandler.findById(driver.getDriverId());
         if (fresh != null) {
             session.setAttribute("loggedInDriver", fresh);
@@ -126,9 +128,10 @@ public class DriverController {
             model.addAttribute("driver", driver);
         }
 
+        // Variable to trigger the sidebar highlight style matching rules
         model.addAttribute("currentPage", "dashboard");
 
-        // Mock state tracking using HTTP Session attributes to keep things simple and secure
+        // Realtime delivery assignment routing logic tokens
         String currentActiveOrder = (String) session.getAttribute("activeOrderId");
         if (currentActiveOrder != null) {
             model.addAttribute("activeOrder", currentActiveOrder);
@@ -157,7 +160,26 @@ public class DriverController {
 
         // Remove active order from session, clearing the track panel
         session.removeAttribute("activeOrderId");
-        ra.addFlashAttribute("success", "Trip completed! Your earnings ledger has been updated.");
+        ra.addFlashAttribute("success", "Trip completed successfully!");
+        return "redirect:/driver/dashboard";
+    }
+
+    // POST: UPDATE DRIVER DUTY STATUS
+    @PostMapping("/updateStatus")
+    public String updateStatus(@RequestParam String status, HttpSession session, RedirectAttributes ra) {
+        DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
+        if (driver == null) return "redirect:/driver/login";
+
+        // Modify local object reference and overwrite text file layout records
+        driver.setStatus(status);
+        boolean updated = fileHandler.update(driver);
+
+        if (updated) {
+            session.setAttribute("loggedInDriver", driver);
+            ra.addFlashAttribute("success", "Your system availability status is now set to " + status + ".");
+        } else {
+            ra.addFlashAttribute("error", "Failed to update platform status registry.");
+        }
         return "redirect:/driver/dashboard";
     }
 
@@ -169,6 +191,7 @@ public class DriverController {
 
         DeliveryDriver fresh = fileHandler.findById(driver.getDriverId());
         model.addAttribute("driver", fresh != null ? fresh : driver);
+        model.addAttribute("currentPage", "profile");
         return "driver/profile";
     }
 
@@ -180,6 +203,7 @@ public class DriverController {
 
         DeliveryDriver fresh = fileHandler.findById(driver.getDriverId());
         model.addAttribute("driver", fresh != null ? fresh : driver);
+        model.addAttribute("currentPage", "edit");
         return "driver/edit";
     }
 
