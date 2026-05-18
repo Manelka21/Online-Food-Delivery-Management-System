@@ -50,6 +50,11 @@
     <h1 class="card-title">Delete <span>Item?</span></h1>
     <p class="card-sub">This action cannot be undone. The item will be permanently removed from the menu.</p>
     <div class="item-box">
+      <c:if test="${not empty item.imageUrl}">
+          <img src="${item.imageUrl}" alt="${item.name}"
+               style="width:60px; height:60px; border-radius:8px;
+                      object-fit:cover; margin-bottom:.75rem;"/>
+      </c:if>
       <div class="item-box-name">${item.name}</div>
       <div class="item-box-row">
         <span class="category-badge">${item.category}</span>

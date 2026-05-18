@@ -116,8 +116,17 @@
             <c:forEach items="${items}" var="item">
               <tr>
                 <td>
-                  <div class="item-name">${item.name}</div>
-                  <div class="item-desc">${item.description}</div>
+                  <div style="display:flex; align-items:center; gap:.75rem;">
+                      <c:if test="${not empty item.imageUrl}">
+                          <img src="${item.imageUrl}" alt="${item.name}"
+                               style="width:48px; height:48px; border-radius:8px;
+                                      object-fit:cover; border:1px solid #e8eaed;"/>
+                      </c:if>
+                      <div>
+                          <div class="item-name">${item.name}</div>
+                          <div class="item-desc">${item.description}</div>
+                      </div>
+                  </div>
                 </td>
                 <td><span class="category-badge">${item.category}</span></td>
                 <td class="price"><fmt:formatNumber value="${item.price}" pattern="#,##0.00"/></td>
