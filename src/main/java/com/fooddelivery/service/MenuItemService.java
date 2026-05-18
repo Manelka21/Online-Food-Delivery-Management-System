@@ -119,7 +119,7 @@ public class MenuItemService {
         return null; // not found
     }
 
-    // This method searches items by name, category or description
+    // Case insensitive search by name, category or description
     public List<MenuItem> search(String query) throws IOException {
         List<MenuItem> allItems = readAll();
         List<MenuItem> results = new ArrayList<>();
