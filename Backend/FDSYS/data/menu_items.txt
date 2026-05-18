@@ -1,0 +1,46 @@
+ITM-001|RES-001|Margherita Pizza|Classic cheese pizza with fresh basil|1200.00|Main|true
+ITM-002|RES-001|Pepperoni Pizza|Spicy pepperoni pizza with mozzarella|1500.00|Main|true
+ITM-003|RES-001|Garlic Bread|Toasted garlic bread with herb butter|350.00|Side|true
+ITM-004|RES-001|Caesar Salad|Crispy romaine with parmesan and croutons|450.00|Salad|true
+ITM-005|RES-001|Tiramisu|Classic Italian dessert|250.00|Dessert|true
+ITM-006|RES-002|Rice & Curry Set|Traditional meal with 3 curries|650.00|Main|true
+ITM-007|RES-002|String Hoppers|Traditional breakfast set|450.00|Main|true
+ITM-008|RES-002|Lamprais|Rice baked in banana leaf with meat|550.00|Main|true
+ITM-009|RES-002|Pol Roti|Coconut flatbread|200.00|Bread|true
+ITM-010|RES-002|Wattalaappam|Steamed sweet pudding|300.00|Dessert|true
+ITM-011|RES-003|Classic Burger|Beef burger with fries|950.00|Main|false
+ITM-012|RES-003|Cheese Burger|Double patty with cheddar|1100.00|Main|true
+ITM-013|RES-003|Bacon Burger|Crispy bacon with swiss cheese|1200.00|Main|true
+ITM-014|RES-003|French Fries|Golden crispy fries|300.00|Side|true
+ITM-015|RES-003|Milkshake|Vanilla, chocolate, or strawberry|250.00|Beverage|true
+ITM-016|RES-004|Spicy Tuna Roll|Fresh tuna with wasabi mayo|980.00|Main|true
+ITM-017|RES-004|California Roll|Crab, avocado, cucumber|850.00|Main|true
+ITM-018|RES-004|Salmon Nigiri|5 pieces of fresh salmon|650.00|Main|true
+ITM-019|RES-004|Miso Soup|Traditional soybean soup|200.00|Soup|true
+ITM-020|RES-004|Tempura|Shrimp and vegetable tempura|720.00|Appetizer|true
+ITM-021|RES-005|Butter Chicken|Creamy tomato based curry|680.00|Main|true
+ITM-022|RES-005|Tandoori Chicken|Smoky marinated chicken|720.00|Main|true
+ITM-023|RES-005|Biryani|Fragrant rice with meat|750.00|Main|true
+ITM-024|RES-005|Naan Bread|Freshly baked Indian bread|180.00|Bread|true
+ITM-025|RES-005|Gulab Jamun|Sweet fried milk solids in syrup|200.00|Dessert|true
+ITM-026|RES-006|Spaghetti Carbonara|Creamy egg and bacon pasta|620.00|Main|true
+ITM-027|RES-006|Fettuccine Alfredo|Rich cream and parmesan sauce|580.00|Main|true
+ITM-028|RES-006|Lasagna Bolognese|Layered meat and cheese|750.00|Main|true
+ITM-029|RES-006|Garlic Pasta|Simple garlic and olive oil|420.00|Main|true
+ITM-030|RES-006|Panna Cotta|Italian dessert with cream|320.00|Dessert|true
+ITM-031|RES-007|Pad Thai|Stir-fried rice noodles|590.00|Main|true
+ITM-032|RES-007|Green Curry|Spicy coconut curry|640.00|Main|true
+ITM-033|RES-007|Tom Yum Soup|Spicy and sour soup|420.00|Soup|true
+ITM-034|RES-007|Mango Sticky Rice|Sweet coconut rice with mango|350.00|Dessert|true
+ITM-035|RES-008|Chicken Kebab|Grilled marinated chicken|580.00|Main|true
+ITM-036|RES-008|Lamb Kebab|Premium lamb kebab|680.00|Main|true
+ITM-037|RES-008|Falafel Wrap|Fried chickpea patties|420.00|Main|true
+ITM-038|RES-008|Hummus & Pita|Chickpea dip with pita bread|280.00|Appetizer|true
+ITM-039|RES-009|Vegan Buddha Bowl|Mixed vegetables and grains|650.00|Main|true
+ITM-040|RES-009|Quinoa Salad|Protein-rich salad|480.00|Salad|true
+ITM-041|RES-009|Vegan Burger|Plant-based patty|520.00|Main|true
+ITM-042|RES-009|Fresh Juice|Seasonal fruit juice|220.00|Beverage|true
+ITM-043|RES-010|Fried Chicken Bucket|4 pieces chicken with fries|1200.00|Main|true
+ITM-044|RES-010|Spicy Wings|Crispy spicy chicken wings|420.00|Appetizer|true
+ITM-045|RES-010|Coleslaw|Fresh vegetable slaw|180.00|Side|true
+ITM-046|RES-010|Biscuit|Fluffy biscuit with butter|120.00|Side|true

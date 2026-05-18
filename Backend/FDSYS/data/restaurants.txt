@@ -1,0 +1,10 @@
+RES-001|Pizza Palace|No.12, Galle Rd, Colombo|+94112222222|Italian|Open
+RES-002|Rice & Curry House|No.8, Kandy Rd, Colombo|+94113333333|Sri Lankan|Open
+RES-003|Burger Barn|No.20, Nugegoda|+94114444444|American|Closed
+RES-004|Sushi Dreams|No.33, Biyagama, Colombo|+94115555555|Japanese|Open
+RES-005|Spice of India|No.45, Mount Lavinia Rd, Colombo|+94116666666|Indian|Open
+RES-006|Pasta Italiana|No.27, Kandy City Center|+94117777777|Italian|Open
+RES-007|Thai Orchid|No.56, Colombo 5|+94118888888|Thai|Open
+RES-008|The Kebab House|No.88, Galle Rd, Colombo|+94119999999|Middle Eastern|Open
+RES-009|Vegan Garden|No.12, Bambalapitiya|+94111234567|Vegan|Open
+RES-010|Fried Chicken Express|No.99, Maharagama|+94112345678|Fast Food|Open
