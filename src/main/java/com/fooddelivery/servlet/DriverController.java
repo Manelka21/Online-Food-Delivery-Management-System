@@ -112,7 +112,7 @@ public class DriverController {
         return "redirect:/driver/login";
     }
 
-    //DASHBOARD (MODERN CONSOLIDATED VIEW)
+    //DASHBOARD
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -125,6 +125,8 @@ public class DriverController {
         } else {
             model.addAttribute("driver", driver);
         }
+
+        model.addAttribute("currentPage", "dashboard");
 
         // Mock state tracking using HTTP Session attributes to keep things simple and secure
         String currentActiveOrder = (String) session.getAttribute("activeOrderId");

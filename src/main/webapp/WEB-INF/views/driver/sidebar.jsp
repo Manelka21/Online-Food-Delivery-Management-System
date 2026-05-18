@@ -11,17 +11,17 @@
 
   <nav class="space-y-1 flex-1">
     <a href="${pageContext.request.contextPath}/driver/dashboard"
-       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-lg font-bold transition ${currentPage == 'dashboard' ? 'bg-black text-white' : 'text-gray-900 hover:bg-gray-50'}">
+       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-lg font-bold transition ${currentPage == 'dashboard' ? 'bg-green-500 text-white' : 'text-gray-900 hover:bg-gray-50'}">
       <span class="text-2xl">📊</span> Dashboard
     </a>
 
     <a href="${pageContext.request.contextPath}/driver/profile"
-       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-lg font-bold transition ${currentPage == 'profile' ? 'bg-black text-white' : 'text-gray-900 hover:bg-gray-50'}">
+       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-lg font-bold transition ${currentPage == 'profile' ? 'bg-green-500 text-white' : 'text-gray-900 hover:bg-gray-50'}">
       <span class="text-2xl">👤</span> My Profile
     </a>
 
     <a href="${pageContext.request.contextPath}/driver/edit"
-       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-lg font-bold transition ${currentPage == 'edit' ? 'bg-black text-white' : 'text-gray-900 hover:bg-gray-50'}">
+       class="flex items-center gap-3 px-4 py-3 rounded-2xl text-lg font-bold transition ${currentPage == 'edit' ? 'bg-green-500 text-white' : 'text-gray-900 hover:bg-gray-50'}">
       <span class="text-2xl">✏️</span> Edit Details
     </a>
 
