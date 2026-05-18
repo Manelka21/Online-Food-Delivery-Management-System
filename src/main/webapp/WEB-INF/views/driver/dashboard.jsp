@@ -1,95 +1,141 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard – FoodFleet Driver</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <title>FoodFleet — Driver Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap">
+    <style>
+        /* Overriding the formal font globally on this page to prevent informal stretching */
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Inter', -apple-system, sans-serif !important;
+            letter-spacing: -0.03em !important;
+        }
+    </style>
 </head>
-<body class="bg-gray-50 min-h-screen font-sans">
-<c:set var="currentPage" value="dashboard"/>
+<body class="bg-[#f9fafb] font-sans antialiased text-gray-900">
 
-<div class="flex h-screen overflow-hidden">
-  <%@ include file="sidebar.jsp" %>
+    <div class="page-wrapper flex min-h-screen">
+        <jsp:include page="sidebar.jsp" />
 
-  <main class="flex-1 overflow-y-auto p-10">
-    <div class="mb-10">
-      <p class="text-xs text-gray-400 mb-2">Home</p>
-      <h1 class="text-4xl font-extrabold text-black tracking-tight">Welcome back, ${driver.firstName}! 👋</h1>
-      <p class="text-gray-500 mt-1">Here's an overview of your driver account.</p>
+        <main class="main-content flex-1 p-16 ml-[260px] w-full">
+
+            <c:if test="${not empty success}">
+                <div class="mb-8 p-5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-2xl flex items-center gap-3 text-base font-semibold shadow-sm">
+                    <span class="text-xl text-[#06C167]">✓</span> ${success}
+                </div>
+            </c:if>
+
+            <div class="mb-12 border-b border-gray-100 pb-8">
+                <h1 class="text-5xl font-extrabold tracking-tight text-gray-900">
+                    Welcome to <span class="text-[#06C167]">FoodFleet</span>
+                </h1>
+                <p class="text-gray-500 text-xl mt-3 font-medium">How would you like to manage your platform operations today, ${driver.firstName}?</p>
+            </div>
+
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-10 w-full items-stretch">
+
+                <div class="bg-white rounded-[32px] shadow-sm border border-gray-500/60 p-10 flex flex-col justify-between min-h-[700px]">
+                    <div>
+                        <div class="flex items-center justify-between mb-8">
+                            <h2 class="font-extrabold text-3xl text-gray-900 tracking-tight">Available Offers</h2>
+                            <span class="w-3.5 h-3.5 rounded-full bg-[#06C167] animate-pulse"></span>
+                        </div>
+
+                        <c:if test="${empty activeOrder}">
+                            <div class="p-8 bg-gray-50 rounded-2xl border border-gray-200/50 space-y-6">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <span class="text-xs font-bold bg-[#06C167]/10 text-[#06C167] px-3 py-1 rounded-full uppercase tracking-wider">Ready for Pickup</span>
+                                        <h3 class="text-2xl font-extrabold text-gray-900 mt-3">McDonald's</h3>
+                                        <p class="text-sm text-gray-400 font-bold uppercase tracking-wider mt-0.5">Rajagiriya Sub-hub</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Net Payout</p>
+                                        <p class="text-3xl font-black text-gray-900 tracking-tight mt-1">LKR 450.00</p>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-3 border-t border-gray-200/60 pt-6 text-base text-gray-600 font-medium">
+                                    <p class="flex items-center gap-3 text-gray-700">
+                                        <span class="text-xl">📍</span> <span><strong class="text-gray-900 font-bold">Drop-off:</strong> 123, Baseline Road, Colombo 05</span>
+                                    </p>
+                                    <p class="flex items-center gap-3 text-gray-700">
+                                        <span class="text-xl">⏱️</span> <span><strong class="text-gray-900 font-bold">Est. Time:</strong> 25 mins total</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${not empty activeOrder}">
+                            <div class="p-12 text-center bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 flex flex-col items-center justify-center min-h-[250px]">
+                                <p class="text-gray-400 text-base font-semibold">Complete your active delivery run to unlock the live marketplace entries.</p>
+                            </div>
+                        </c:if>
+                    </div>
+
+                    <c:if test="${empty activeOrder}">
+                        <div class="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+                            <form action="${pageContext.request.contextPath}/driver/acceptOrder" method="POST" class="w-full md:w-auto">
+                                <input type="hidden" name="orderId" value="ORD-77123" />
+                                <button type="submit" class="w-full md:w-auto px-10 py-4 bg-green-500 hover:bg-gray-900 text-white text-lg font-bold rounded-full transition-all active:scale-95 shadow-md">
+                                    Accept Offer
+                                </button>
+                            </form>
+                        </div>
+                    </c:if>
+                </div>
+
+
+                <div class="bg-white rounded-[32px] shadow-sm border border-gray-500/60 p-10 flex flex-col justify-between min-h-[700px]">
+                    <div>
+                        <div class="mb-8">
+                            <h2 class="font-extrabold text-3xl text-gray-900 tracking-tight">Active Route Tracker</h2>
+                        </div>
+
+                        <c:if test="${not empty activeOrder}">
+                            <div class="p-8 bg-emerald-50/40 rounded-2xl border border-emerald-100 space-y-6">
+                                <div class="flex items-center justify-between">
+                                    <span class="px-3.5 py-1 bg-[#06C167] text-white text-xs font-black rounded-full uppercase tracking-wider">In Progress</span>
+                                    <span class="text-sm font-mono font-bold text-gray-400">ID: ${activeOrder}</span>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <h3 class="font-extrabold text-2xl text-gray-900">KFC — Nugegoda Complex</h3>
+                                    <p class="text-base text-gray-600 font-medium">📍 <span class="font-bold text-gray-900">Destination:</span> Faculty of Computing, SLIIT Malabe</p>
+                                </div>
+
+                                <div class="p-4 bg-white rounded-xl border border-emerald-100/70 text-sm text-[#06C167] font-bold flex items-center gap-3 shadow-sm">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-[#06C167] inherit animate-ping"></span>
+                                    Food is packed and ready for transport.
+                                </div>
+                            </div>
+                        </c:if>
+
+                        <c:if test="${empty activeOrder}">
+                            <div class="p-12 text-center bg-gray-50/50 rounded-2xl border border-dashed border-gray-200 flex flex-col items-center justify-center min-h-[300px]">
+                                <div class="w-20 h-20 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-4xl mb-6">🛵</div>
+                                <p class="text-gray-500 text-lg font-bold">You are currently sitting idle</p>
+                                <p class="text-sm text-gray-400 mt-2 max-w-sm font-medium">Accept an open ticket from the live marketplace panel to begin tracking live dispatches.</p>
+                            </div>
+                        </c:if>
+                    </div>
+
+                    <c:if test="${not empty activeOrder}">
+                        <form action="${pageContext.request.contextPath}/driver/completeOrder" method="POST" class="mt-8 pt-6 border-t border-gray-100">
+                            <button type="submit" class="w-full px-6 py-4 bg-green-500 hover:bg-gray-900 text-white text-base font-bold rounded-full transition-all active:scale-95 text-center shadow-md">
+                                Mark Drop As Completed ✓
+                            </button>
+                        </form>
+                    </c:if>
+                </div>
+
+            </div>
+        </main>
     </div>
 
-    <c:if test="${not empty success}">
-      <div class="p-4 bg-green-50 border border-green-200 rounded-2xl text-green-600 text-xs mb-6">✅ ${success}</div>
-    </c:if>
-    <c:if test="${not empty error}">
-      <div class="p-4 bg-red-50 border border-red-200 rounded-2xl text-red-600 text-xs mb-6">⚠️ ${error}</div>
-    </c:if>
-
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
-      <div class="bg-gray-200 hover:bg-gray-200 text-black rounded-3xl p-6 flex flex-col justify-between h-36">
-        <span class="text-2xl font-bold tracking-wider text-black uppercase">Driver ID</span>
-        <span class="text-xl font-black">${driver.driverId}</span>
-      </div>
-
-      <div class="bg-gray-200 hover:bg-gray-200 text-black rounded-3xl p-6 flex flex-col justify-between h-36 shadow-sm">
-        <span class="text-2xl font-bold tracking-wider text-black uppercase">Status</span>
-        <span class="text-xl">
-          <c:choose>
-            <c:when test="${driver.status == 'ACTIVE'}">
-              <span class="bg-green-50 text-green-600 font-semibold px-5 py-1 rounded-full text-xl">● Active</span>
-            </c:when>
-            <c:when test="${driver.status == 'ON_DELIVERY'}">
-              <span class="bg-orange-50 text-orange-600 font-semibold px-3 py-1 rounded-full text-xl">● On Delivery</span>
-            </c:when>
-            <c:otherwise>
-              <span class="bg-gray-100 text-gray-500 font-semibold px-3 py-1 rounded-full text-xl">● Inactive</span>
-            </c:otherwise>
-          </c:choose>
-        </span>
-      </div>
-
-      <div class="bg-gray-200 hover:bg-gray-200 text-black rounded-3xl p-6 flex flex-col justify-between h-36 shadow-sm">
-        <span class="text-2xl font-bold tracking-wider text-black uppercase">Vehicle</span>
-        <span class="text-xl font-extrabold text-gray-900">
-          <c:choose>
-            <c:when test="${driver.vehicleType == 'BIKE'}">🚲 Bicycle</c:when>
-            <c:when test="${driver.vehicleType == 'SCOOTER'}">🛵 Scooter</c:when>
-            <c:when test="${driver.vehicleType == 'MOTORBIKE'}">🏍️ Motorbike</c:when>
-            <c:when test="${driver.vehicleType == 'CAR'}">🚗 Car</c:when>
-            <c:otherwise>${driver.vehicleType}</c:otherwise>
-          </c:choose>
-        </span>
-      </div>
-
-      <div class="bg-gray-200 hover:bg-gray-200 text-black rounded-3xl p-6 flex flex-col justify-between h-36 shadow-sm">
-        <span class="text-2xl font-bold tracking-wider text-black uppercase">Member Since</span>
-        <span class="text-xl font-extrabold text-gray-900">${driver.registeredDate}</span>
-      </div>
-    </div>
-
-    <div class="bg-white border border-gray-200 rounded-3xl p-8 shadow-sm">
-      <h2 class="text-2xl font-bold text-black uppercase tracking-wider mb-6">Delivery Summary</h2>
-      <div class="py-4 border-b border-gray-100 flex justify-between text-lg">
-        <span class="font-bold text-gray-400">Full Name</span>
-        <span class="font-extrabold text-gray-900">${driver.firstName} ${driver.lastName}</span>
-      </div>
-      <div class="py-4 border-b border-gray-100 flex justify-between text-lg">
-        <span class="font-bold text-gray-400">Email</span>
-        <span class="font-semibold text-gray-900">${driver.email}</span>
-      </div>
-      <div class="py-4 border-b border-gray-100 flex justify-between text-lg">
-        <span class="font-bold text-gray-400">Phone</span>
-        <span class="font-semibold text-gray-900">${driver.phone}</span>
-      </div>
-      <div class="py-4 flex justify-between text-lg">
-        <span class="font-bold text-gray-400">License No.</span>
-        <span class="font-semibold text-gray-900">${driver.licenseNumber}</span>
-      </div>
-    </div>
-  </main>
-</div>
 </body>
 </html>

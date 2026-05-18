@@ -14,12 +14,14 @@ import java.util.List;
 
 /**
  Spring MVC Controller for the Delivery Driver subsystem.
- Handles: Register, Login, View Profile, Edit Profile, Delete Account.
+ Handles: Register, Login, View Profile, Edit Profile, Delete Account, Accept Order, Complete Order.
  */
 @Controller
 @RequestMapping("/driver")
-
 public class DriverController {
+
+    @Autowired
+    private FileHandler fileHandler;
 
     @GetMapping("/")
     @org.springframework.web.bind.annotation.ResponseBody
@@ -27,16 +29,12 @@ public class DriverController {
         response.sendRedirect("/driver/login");
     }
 
-    @Autowired
-    private FileHandler fileHandler;
-
     //HOME
     @GetMapping({"", "/"})
     public String home(HttpSession session, Model model) {
         DeliveryDriver loggedIn = (DeliveryDriver) session.getAttribute("loggedInDriver");
         if (loggedIn != null) {
-            model.addAttribute("driver", loggedIn);
-            return "driver/dashboard";
+            return "redirect:/driver/dashboard";
         }
         return "redirect:/driver/login";
     }
@@ -58,9 +56,8 @@ public class DriverController {
                            @RequestParam String licenseNumber,
                            RedirectAttributes ra) {
 
-        // Basic validation
         if (firstName.isBlank() || lastName.isBlank() || email.isBlank() ||
-            password.isBlank() || phone.isBlank() || licenseNumber.isBlank()) {
+                password.isBlank() || phone.isBlank() || licenseNumber.isBlank()) {
             ra.addFlashAttribute("error", "All fields are required.");
             return "redirect:/driver/register";
         }
@@ -69,8 +66,8 @@ public class DriverController {
         String date = LocalDate.now().toString();
 
         DeliveryDriver driver = new DeliveryDriver(
-            id, firstName, lastName, email, password,
-            phone, vehicleType, licenseNumber, "ACTIVE", date
+                id, firstName, lastName, email, password,
+                phone, vehicleType, licenseNumber, "ACTIVE", date
         );
 
         boolean created = fileHandler.create(driver);
@@ -115,12 +112,12 @@ public class DriverController {
         return "redirect:/driver/login";
     }
 
-    //DASHBOARD
+    //DASHBOARD (MODERN CONSOLIDATED VIEW)
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
         if (driver == null) return "redirect:/driver/login";
-        // Refresh from file to get latest data
+
         DeliveryDriver fresh = fileHandler.findById(driver.getDriverId());
         if (fresh != null) {
             session.setAttribute("loggedInDriver", fresh);
@@ -128,10 +125,41 @@ public class DriverController {
         } else {
             model.addAttribute("driver", driver);
         }
+
+        // Mock state tracking using HTTP Session attributes to keep things simple and secure
+        String currentActiveOrder = (String) session.getAttribute("activeOrderId");
+        if (currentActiveOrder != null) {
+            model.addAttribute("activeOrder", currentActiveOrder);
+        }
+
         return "driver/dashboard";
     }
 
-    //VIEW PROFILE (READ)
+    // POST: ACCEPT ORDER TOGGLE
+    @PostMapping("/acceptOrder")
+    public String acceptOrder(@RequestParam String orderId, HttpSession session, RedirectAttributes ra) {
+        DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
+        if (driver == null) return "redirect:/driver/login";
+
+        // Assign the active order code into the driver's current session state
+        session.setAttribute("activeOrderId", orderId);
+        ra.addFlashAttribute("success", "Order " + orderId + " accepted successfully! Drive safely.");
+        return "redirect:/driver/dashboard";
+    }
+
+    // POST: COMPLETE ORDER TOGGLE
+    @PostMapping("/completeOrder")
+    public String completeOrder(HttpSession session, RedirectAttributes ra) {
+        DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
+        if (driver == null) return "redirect:/driver/login";
+
+        // Remove active order from session, clearing the track panel
+        session.removeAttribute("activeOrderId");
+        ra.addFlashAttribute("success", "Trip completed! Your earnings ledger has been updated.");
+        return "redirect:/driver/dashboard";
+    }
+
+    //VIEW PROFILE
     @GetMapping("/profile")
     public String viewProfile(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -142,7 +170,7 @@ public class DriverController {
         return "driver/profile";
     }
 
-    //EDIT PROFILE (UPDATE)
+    //EDIT PROFILE
     @GetMapping("/edit")
     public String editForm(HttpSession session, Model model) {
         DeliveryDriver driver = (DeliveryDriver) session.getAttribute("loggedInDriver");
@@ -218,7 +246,7 @@ public class DriverController {
         }
     }
 
-    //ADMIN: ALL DRIVERS
+    //ADMIN
     @GetMapping("/all")
     public String listAll(Model model) {
         List<DeliveryDriver> drivers = fileHandler.readAll();
