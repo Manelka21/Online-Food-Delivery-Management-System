@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Payments – FoodDelivery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background: #f8f8f8; font-family: 'Segoe UI', sans-serif; }
+        .navbar-custom { background: white; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .navbar-brand-custom { font-size: 22px; font-weight: 800; color: #1a1a1a; }
+        .navbar-brand-custom span { color: #06C167; }
+        .btn-back { background: #1a1a1a; color: white; border: none; padding: 8px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; text-decoration: none; }
+        .btn-back:hover { background: #333; color: white; }
+        .content { max-width: 760px; margin: 40px auto; padding: 0 20px; }
+        .page-title { font-size: 28px; font-weight: 800; color: #1a1a1a; margin-bottom: 6px; }
+        .page-sub { color: #888; font-size: 14px; margin-bottom: 28px; }
+        .payment-card {
+            background: white; border-radius: 16px;
+            padding: 20px 24px; margin-bottom: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .pay-left .pay-id { font-family: monospace; font-size: 13px; color: #888; margin-bottom: 4px; }
+        .pay-left .pay-order { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+        .pay-left .pay-date { font-size: 12px; color: #aaa; margin-top: 2px; }
+        .pay-right { text-align: right; }
+        .pay-amount { font-size: 18px; font-weight: 800; color: #1a1a1a; }
+        .pay-type { font-size: 12px; color: #888; margin-top: 2px; }
+        .status-badge { padding: 5px 14px; border-radius: 999px; font-size: 12px; font-weight: 700; display: inline-block; margin-top: 6px; }
+        .status-COMPLETED { background: #f0fdf6; color: #06C167; }
+        .status-PENDING   { background: #fffbeb; color: #f59e0b; }
+        .status-FAILED    { background: #fff1f2; color: #e11d48; }
+        .status-REFUNDED  { background: #eff6ff; color: #3b82f6; }
+        .empty-state { text-align: center; padding: 60px 20px; color: #aaa; }
+        .empty-icon { font-size: 48px; margin-bottom: 16px; }
+        .btn-green { background: #06C167; color: white; border: none; border-radius: 999px; padding: 12px 28px; font-weight: 700; font-size: 14px; text-decoration: none; display: inline-block; }
+        .btn-green:hover { background: #05a856; color: white; }
+    </style>
+</head>
+<body>
+
+<div class="navbar-custom">
+    <div class="navbar-brand-custom">Food<span>Delivery</span></div>
+    <a href="/customer" class="btn-back">← Back</a>
+</div>
+
+<div class="content">
+    <div class="page-title">My Payments</div>
+    <p class="page-sub">
+        Showing payments for Customer ID: <strong th:text="${customerId}"></strong>
+    </p>
+
+    <!-- Payments list -->
+    <div th:each="payment : ${payments}">
+        <div class="payment-card">
+            <div class="pay-left">
+                <div class="pay-id" th:text="${payment.paymentId}"></div>
+                <div class="pay-order">Order: <span th:text="${payment.orderId}"></span></div>
+                <div class="pay-date" th:text="${payment.createdAt}"></div>
+            </div>
+            <div class="pay-right">
+                <div class="pay-amount" th:text="'LKR ' + ${#numbers.formatDecimal(payment.amount, 1, 2)}"></div>
+                <div class="pay-type" th:text="${payment.paymentType}"></div>
+                <span class="status-badge"
+                      th:classappend="'status-' + ${payment.status}"
+                      th:text="${payment.status}"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state -->
+    <div th:if="${#lists.isEmpty(payments)}" class="empty-state">
+        <div class="empty-icon">🧾</div>
+        <p>No payments found for <strong th:text="${customerId}"></strong></p>
+        <a href="/customer" class="btn-green mt-3">Make a Payment →</a>
+    </div>
+
+    <!-- Pay again button -->
+    <div th:if="${!#lists.isEmpty(payments)}" class="text-center mt-4">
+        <a href="/customer" class="btn-green">Make Another Payment →</a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

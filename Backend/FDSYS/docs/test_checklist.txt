@@ -1,0 +1,17 @@
+# Test Checklist - Customer Management
+
+## Authentication
+- [ ] Signup a new customer via `c-signup.html`.
+- [ ] Login with the new customer via `c-login.html`.
+- [ ] Verify that non-customers cannot login to the customer app.
+- [ ] Verify that incorrect passwords result in a 401 error.
+
+## Customer CRUD (Admin)
+- [ ] View list of customers in `admin-app/customers.html`.
+- [ ] Create a new customer and verify they appear in the list.
+- [ ] Edit an existing customer's name/phone/address.
+- [ ] Delete a customer and verify they are removed from `users.txt`.
+
+## Profile Management
+- [ ] View profile details in `c-profile.html`.
+- [ ] Update name/phone/address and verify it saves correctly.

@@ -1,0 +1,21 @@
+﻿Customer Management Frontend API Notes
+======================================
+
+Backend base URL:
+http://localhost:8080
+
+Auth endpoints used by customer-app and admin-app:
+POST /auth/login
+Request body: { "email": "amal@gmail.com", "password": "1234" }
+Response: { "personId": "USR-001", "name": "Amal Perera", "role": "CUSTOMER", "email": "amal@gmail.com" }
+
+POST /auth/signup
+Request body: { "name", "email", "password", "phone", "address" }
+Creates a Customer row in data/users.txt.
+
+Customer CRUD endpoints used by admin-app/customers.html and customer-app/c-profile.html:
+GET /customers
+GET /customers/{id}
+POST /customers
+PUT /customers/{id}
+DELETE /customers/{id}
