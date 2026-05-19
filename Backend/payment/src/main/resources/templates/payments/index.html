@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin – Payment Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background: #f8f8f8; font-family: 'Segoe UI', sans-serif; }
+        .navbar-custom { background: #1a1a1a; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; }
+        .navbar-brand-custom { font-size: 20px; font-weight: 800; color: white; }
+        .navbar-brand-custom span { color: #06C167; }
+        .btn-customer { background: #06C167; color: white; border: none; padding: 8px 20px; border-radius: 999px; font-size: 13px; font-weight: 600; text-decoration: none; }
+        .btn-customer:hover { background: #05a856; color: white; }
+        .content { padding: 36px 40px; }
+        .page-title { font-size: 26px; font-weight: 800; color: #1a1a1a; margin-bottom: 4px; }
+        .page-sub { color: #888; font-size: 14px; margin-bottom: 28px; }
+
+        .stat-card { background: white; border-radius: 16px; padding: 20px 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border: none; }
+        .stat-label { font-size: 12px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-value { font-size: 28px; font-weight: 800; color: #1a1a1a; margin: 4px 0; }
+        .stat-icon { font-size: 28px; }
+
+        .filter-bar { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-btn { border: 2px solid #eee; background: white; border-radius: 999px; padding: 7px 18px; font-size: 13px; font-weight: 600; color: #666; text-decoration: none; transition: all 0.15s; }
+        .filter-btn:hover, .filter-btn.active { border-color: #1a1a1a; color: #1a1a1a; }
+
+        .table-card { background: white; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); overflow: hidden; }
+        .table { margin: 0; }
+        .table thead th { background: #f8f8f8; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #888; border-bottom: 1px solid #eee; padding: 14px 16px; }
+        .table tbody td { padding: 14px 16px; vertical-align: middle; font-size: 14px; border-bottom: 1px solid #f5f5f5; }
+        .table tbody tr:last-child td { border-bottom: none; }
+
+        .type-CARD   { background: #f3e8ff; color: #7c3aed; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+        .type-CASH   { background: #f0fdf6; color: #06C167; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+        .type-ONLINE { background: #eff6ff; color: #3b82f6; padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+
+        .status-COMPLETED { background: #f0fdf6; color: #06C167; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+        .status-PENDING   { background: #fffbeb; color: #f59e0b; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+        .status-FAILED    { background: #fff1f2; color: #e11d48; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+        .status-REFUNDED  { background: #eff6ff; color: #3b82f6; padding: 4px 12px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+
+        .action-btn { border: 1.5px solid #eee; background: white; border-radius: 8px; padding: 5px 10px; font-size: 14px; cursor: pointer; transition: all 0.15s; }
+        .action-btn:hover { border-color: #ccc; }
+
+        .alert-custom { border-radius: 12px; border: none; padding: 12px 18px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar-custom">
+    <div class="navbar-brand-custom">Food<span>Delivery</span> <small style="font-size:13px; color:#888; font-weight:400;">Admin</small></div>
+    <a href="/customer" class="btn-customer">
+        <i class="bi bi-person me-1"></i>Customer View
+    </a>
+</div>
+
+<div class="content">
+
+    <!-- Flash messages -->
+    <div th:if="${success}" class="alert alert-custom" style="background:#f0fdf6; color:#06C167;">
+        <i class="bi bi-check-circle-fill me-2"></i><span th:text="${success}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-custom" style="background:#fff1f2; color:#e11d48;">
+        <i class="bi bi-x-circle-fill me-2"></i><span th:text="${error}"></span>
+    </div>
+
+    <div class="page-title">Payment Management</div>
+    <p class="page-sub">Manage all customer payments across the platform</p>
+
+    <!-- Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Total Payments</div>
+                        <div class="stat-value" th:text="${totalCount}">0</div>
+                    </div>
+                    <span class="stat-icon">💳</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Completed</div>
+                        <div class="stat-value" style="color:#06C167;" th:text="${completedCount}">0</div>
+                    </div>
+                    <span class="stat-icon">✅</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Pending</div>
+                        <div class="stat-value" style="color:#f59e0b;" th:text="${pendingCount}">0</div>
+                    </div>
+                    <span class="stat-icon">⏳</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-value" style="color:#06C167; font-size:20px;"
+                             th:text="'LKR ' + ${#numbers.formatDecimal(totalRevenue, 1, 2)}">0</div>
+                    </div>
+                    <span class="stat-icon">💰</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="filter-bar mb-3">
+        <a href="/payments" class="filter-btn active">All</a>
+        <a href="/payments/filter?status=PENDING"   class="filter-btn">⏳ Pending</a>
+        <a href="/payments/filter?status=COMPLETED" class="filter-btn">✅ Completed</a>
+        <a href="/payments/filter?status=FAILED"    class="filter-btn">❌ Failed</a>
+        <a href="/payments/filter?status=REFUNDED"  class="filter-btn">↩️ Refunded</a>
+    </div>
+
+    <!-- Table -->
+    <div class="table-card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>Type</th>
+                    <th>Amount (LKR)</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="payment : ${payments}">
+                    <td class="font-monospace small text-muted" th:text="${payment.paymentId}"></td>
+                    <td th:text="${payment.orderId}"></td>
+                    <td th:text="${payment.customerId}"></td>
+                    <td><span th:classappend="'type-' + ${payment.paymentType}" th:text="${payment.paymentType}"></span></td>
+                    <td class="fw-bold" th:text="${#numbers.formatDecimal(payment.amount, 1, 2)}"></td>
+                    <td><span th:classappend="'status-' + ${payment.status}" th:text="${payment.status}"></span></td>
+                    <td class="text-muted small" th:text="${payment.createdAt}"></td>
+                    <td>
+                        <a th:href="@{/payments/view/{id}(id=${payment.paymentId})}" class="action-btn" title="View">👁</a>
+                        <a th:href="@{/payments/edit/{id}(id=${payment.paymentId})}" class="action-btn" title="Edit">✏️</a>
+                        <form th:action="@{/payments/delete/{id}(id=${payment.paymentId})}" method="post" class="d-inline"
+                              onsubmit="return confirm('Delete this payment?')">
+                            <button type="submit" class="action-btn" title="Delete">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(payments)}">
+                    <td colspan="8" class="text-center py-5 text-muted">No payments found.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
